@@ -1,0 +1,69 @@
+# v3 syntax
+version: '3'
+
+# Named volumes
+volumes:
+  # Mongodb Data
+  heroes-mongodb-data:
+    driver: local
+
+  # Redis Data
+  heroes-redis-data:
+    driver: local
+
+services:
+  # PHP (nginx)
+  api:
+    image: ambientum/php:7.2-nginx
+    container_name: heroes-nginx
+    volumes:
+      - .:/var/www/app
+    ports:
+      - "8006:8080"
+    environment:
+      - XDEBUG_ENABLED=true
+    depends_on:
+      - redis
+    links:
+      - redis
+      - mongodb
+
+  #Mongo Database
+  mongodb:
+    image: mongo:3.6
+    container_name: heroes-mongo
+    volumes:
+      - heroes-mongodb-data:/data/db
+    ports:
+      - "27020:27017"
+    environment:
+      - MONGO_DATA_DIR=/data/db
+      - MONGO_LOG_DIR=/dev/null
+      - MONGO_INITDB_ROOT_USERNAME=heroes
+      - MONGO_INITDB_ROOT_PASSWORD=heroes@mongo
+      - MONGO_INITDB_DATABASE=heroes
+    command: mongod --smallfiles --logpath=/dev/null # --quiet
+
+  # Redis
+  redis:
+    image: redis:4.0
+    container_name: heroes-redis
+    command: redis-server --requirepass heroes@redis --appendonly yes
+    volumes:
+      - heroes-redis-data:/data
+    ports:
+      - "6382:6379"
+
+  # Queue remuneracao-variavel
+  queue:
+    image: ambientum/php:7.2
+    container_name: heroes-queue
+    command: php artisan queue:work --memory=1024
+    restart: always
+    depends_on:
+      - redis
+    volumes:
+      - .:/var/www/app
+    links:
+      - mongodb
+      - redis
