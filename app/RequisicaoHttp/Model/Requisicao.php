@@ -1,6 +1,6 @@
 <?php
 
-namespace RequisicaoHttp\Model;
+namespace Heroes\RequisicaoHttp\Model;
 
 use Heroes\Common\PropriedadeDadosTrait;
 
@@ -23,7 +23,7 @@ class Requisicao
 
     public function setStatus($requesicaoStatus)
     {
-        $this->corpo = $requesicaoStatus;
+        $this->status = $requesicaoStatus;
     }
 
     public function getStatus()
