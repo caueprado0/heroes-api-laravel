@@ -14,9 +14,9 @@ class Favorito extends Controller
         $this->service = $service;
     }
 
-    public function create(Request $request)
+    public function create(Request $request, $id)
     {
-        $data = $this->service->create($request->input('personagemId'));
+        $data = $this->service->create($id);
         return response()->json([
             "url" => $request->fullUrl(),
             "statusCode" => 200,
