@@ -14,7 +14,7 @@ class Favorito extends Controller
         $this->service = $service;
     }
 
-    public function create(Request $request, $id)
+    public function create(\Heroes\Personagens\Service\ListarPersonagens\Create $request, $id)
     {
         $data = $this->service->create($id);
         return response()->json([
