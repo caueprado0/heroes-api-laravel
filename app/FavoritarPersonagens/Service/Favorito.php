@@ -23,7 +23,7 @@ class Favorito
         return $this->criarDeletar->delete($id);
     }
 
-    public function all()
+    public function getAll()
     {
         return $this->listar->all();
     }
