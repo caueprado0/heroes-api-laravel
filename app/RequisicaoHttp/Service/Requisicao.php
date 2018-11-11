@@ -1,10 +1,10 @@
 <?php
 
-namespace RequisicaoHttp\Service;
+namespace Heroes\RequisicaoHttp\Service;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Request;
-use RequisicaoHttp\Model\Requisicao as RequisicaoModel;
+use Heroes\RequisicaoHttp\Model\Requisicao as RequisicaoModel;
 
 class Requisicao
 {
@@ -17,7 +17,7 @@ class Requisicao
         $this->model = new RequisicaoModel();
     }
 
-    private function preparaRequisicao(string $verboHttp, array $novasOpcoes, array $corpoRequisicao)
+    private function preparaRequisicao(string $url, string $verboHttp, array $novasOpcoes, array $corpoRequisicao)
     {
         $opcoes = [
             'Accept' => 'application/json',
@@ -28,16 +28,16 @@ class Requisicao
             $opcoes = array_merge($opcoes, $novasOpcoes);
         }
 
-        $body = json_encode($body);
+        $body = json_encode($corpoRequisicao);
 
-        return new Request($verboHttp, $url, $opcoes, $body);
+        return new Request(strtoupper($verboHttp), $url, $opcoes, $body);
     }
 
-    public function envia(string $verboHttp, string $url, array $opcoes = [], array $body = []):RequisicaoModel
+    public function envia(string $url, string $verboHttp = 'GET', array $opcoes = [], array $body = []):RequisicaoModel
     {
         try {
-            \Log::info("[HEROES][REQUISICAO] Vamos começar a requisição no Hyoga na URL: " . self::URL_PRODUCAO);
-            $request = $this->preparaRequisicao($verboHttp, $url, $opcoes, $body);
+            \Log::info("[HEROES][REQUISICAO] Vamos começar a requisição na URL: " . $url);
+            $request = $this->preparaRequisicao($url, $verboHttp, $opcoes, $body);
 
             \Log::info("[HEROES][REQUISICAO] Montada a Request");
             $respostaHttp = $this->clienteHttp->send($request);
@@ -45,13 +45,12 @@ class Requisicao
             \Log::info("[HEROES][REQUISICAO] Request enviada");
             $respostaHttpStatus = (string) $respostaHttp->getStatusCode();
 
-            \Log::info("[HEROES][REQUISICAO] A resposta foi: " . $respostaHttp->getBody().PHP_EOL);
             \Log::info("[HEROES][REQUISICAO] O Status HTTP da resposta foi: " . $respostaHttpStatus.PHP_EOL);
 
-            $this->model->setStatus = $respostaHttp->getStatusCode();
-            $this->model->setCorpo = json_decode($respostaHttp->getBody(true), true);
+            $this->model->setStatus($respostaHttp->getStatusCode());
+            $this->model->setCorpo(json_decode($respostaHttp->getBody(true), true));
 
-            return $this->model;
+            return clone $this->model;
         } catch (\GuzzleHttp\Exception\RequestException $e) {
             $respostaHttp = json_decode($e->getResponse()->getBody(true), true);
 
