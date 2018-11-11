@@ -59,7 +59,7 @@ services:
     image: ambientum/php:7.2
     container_name: heroes-queue
     command: php artisan queue:work --memory=1024
-    restart: always
+    restart: on-failure
     depends_on:
       - redis
     volumes:
