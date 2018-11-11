@@ -22,9 +22,11 @@ class Create extends FormRequest
         $data = $this->all();
         $personagemId = $this->listarPersonagens->find($this->route('personagemId'));
 
-        if (isset($personagemId['results']['id'])) {
-            $data['personagemId'] = $personagemId['results']['id'];
+        if (isset($personagemId['results'][0]['id'])) {
+            \Log::info("[HEROES][CREATE-FAVORITO][REQUEST] Foi encontrado o ID {$this->route('personagemId')}");
+            $data['personagemId'] = $personagemId['results'][0]['id'];
         } else {
+            \Log::info("[HEROES][CREATE-FAVORITO][REQUEST] NÃO foi encontrado o ID {$this->route('personagemId')}");
             $data['personagemId'] = null;
         }
 
