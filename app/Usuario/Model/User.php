@@ -1,22 +1,25 @@
 <?php
 
-namespace Heroes;
+namespace Heroes\Usuario\Model;
 
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Foundation\Auth\User as Authenticatable;
+use DesignMyNight\Mongodb\Auth\User as MongoAuth;
+use Laravel\Passport\HasApiTokens;
 
-class User extends Authenticatable
+class Usuario extends Authenticatable
 {
-    use Notifiable;
+    use Notifiable, HasApiTokens;
 
+    protected $collection = 'usuarios';
+    protected $connection = 'mongodb';
+    protected $table = 'usuarios';
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'nome', 'email', 'password',
     ];
 
     /**
