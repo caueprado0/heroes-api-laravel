@@ -8,7 +8,10 @@ trait PropriedadeDadosTrait
     {
         if (property_exists($this, $propriedade)) {
             $methodName = "get".ucfirst($propriedade);
-            return $this->$methodName;
+            if (method_exists($this, $methodName)) {
+                return $this->{$methodName}();
+            }
+            return $this->$propriedade;
         }
     }
 }
