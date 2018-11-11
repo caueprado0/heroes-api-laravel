@@ -1,65 +1,124 @@
-<p align="center"><img src="https://laravel.com/assets/img/components/logo-laravel.svg"></p>
+Heroes API Laravel
+===================
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/d/total.svg" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/v/stable.svg" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/license.svg" alt="License"></a>
-</p>
+O projeto Heroes é um software aberto, desenvolvido pelo Cauê Prado.
 
-## About Laravel
+Social Media:
+```
+Github: caueprado0
+Instagram: @sigaocaue
+```
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel attempts to take the pain out of development by easing common tasks used in the majority of web projects, such as:
+O objetivo deste software é receber os dados de clientes, o tipo de contrato, para assim, através do nosso software, selecionar o contrato correto, enviar para o cliente aprovar. Neste software vai ser possível controlar se o contrato ainda vai estar válido ou expirado, se seus dados dentro do contrato estão corretos.
+____
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Instalação
+Para efetuar edições neste software,certifique-se que possua os seguintes requisitos:
 
-Laravel is accessible, yet powerful, providing tools needed for large, robust applications.
+* Git (versão mínima: 2.7.4)
+* Docker (versão mínima: 18.03)
+* Docker compose (versão mínima: 1.11.2)
 
-## Learning Laravel
+#### 1 - Clone o projeto
+____
+```
+git clone https://github.com/caueprado0/heroes-api-laravel.git
+```
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of any modern web application framework, making it a breeze to get started learning the framework.
+#### 2 - Iniciar o container
+____
+Inicie o container com o seguinte comando:
+```
+docker-compose up -d
+```
+#### 3 - Instalando as dependências do PHP
+____
+Instale as dependências do PHP com o Composer, para isso, é necessário primeiro acessar o container e depois realizar a instalação. Segue abaixo os comandos:
+```
+docker container exec -it shun-nginx bash
+composer install
+```
 
-If you're not in the mood to read, [Laracasts](https://laracasts.com) contains over 1100 video tutorials on a range of topics including Laravel, modern PHP, unit testing, JavaScript, and more. Boost the skill level of yourself and your entire team by digging into our comprehensive video library.
+#### 4 - Criando ambiente de Desenvolvimento
+____
+**ATENÇÃO esses procedimentos somente devem ser executados em desenvolvimento**
 
-## Laravel Sponsors
+Vamos acessar nosso container, caso, você já esteja dentro dele, ignorar o passo abaixo. Para acessar o container basta:
+```
+docker container exec -it shun-nginx bash
+```
 
-We would like to extend our thanks to the following sponsors for helping fund on-going Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell):
+Agora vamos criar um arquivo com as variáveis de ambiente, esse arquivo é chamado de "*.env*". Para isso basta utilizar o seguinte comando:
+```
+touch .env
+```
+Agora com o .env criado, insira o seguinte conteúdo dentro do arquivo:
+```
+APP_NAME=Shun
+APP_ENV=local
+APP_KEY=
+APP_DEBUG=true
+APP_URL=http://localhost
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[British Software Development](https://www.britishsoftware.co)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- [UserInsights](https://userinsights.com)
-- [Fragrantica](https://www.fragrantica.com)
-- [SOFTonSOFA](https://softonsofa.com/)
-- [User10](https://user10.com)
-- [Soumettre.fr](https://soumettre.fr/)
-- [CodeBrisk](https://codebrisk.com)
-- [1Forge](https://1forge.com)
-- [TECPRESSO](https://tecpresso.co.jp/)
-- [Runtime Converter](http://runtimeconverter.com/)
-- [WebL'Agence](https://weblagence.com/)
-- [Invoice Ninja](https://www.invoiceninja.com)
-- [iMi digital](https://www.imi-digital.de/)
-- [Earthlink](https://www.earthlink.ro/)
-- [Steadfast Collective](https://steadfastcollective.com/)
+LOG_CHANNEL=single
 
-## Contributing
+DB_CONNECTION=mysql
+DB_HOST=mysql
+DB_PORT=3306
+DB_DATABASE=shun
+DB_USERNAME=shun
+DB_PASSWORD=shun@mysql
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
 
-## Security Vulnerabilities
+MONGODB_HOST=mongodb
+MONGODB_PORT=27017
+MONGODB_DATABASE=shun
+MONGODB_USERNAME=shun
+MONGODB_PASSWORD=shun@mongo
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+CACHE_DRIVER=redis
+SESSION_DRIVER=redis
+SESSION_LIFETIME=120
+QUEUE_DRIVER=redis
 
-## License
+REDIS_HOST=redis
+REDIS_PASSWORD=shun@redis
+REDIS_PORT=6379
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+MAIL_DRIVER=smtp
+MAIL_HOST=smtp.mailtrap.io
+MAIL_PORT=2525
+MAIL_USERNAME=null
+MAIL_PASSWORD=null
+MAIL_ENCRYPTION=null
+
+```
+Para finalizar o nosso *.env*, execute o seguinte comando:
+```
+php artisan key:generate
+```
+
+Agora vamos informar para o composer mapear os nossos novos arquivos. Dentro container, execute o seguinte comando:
+```
+composer dump-autoload
+```
+
+Com o nosso arquivo *.env* em mãos, vamos criar as tabelas do banco de dados e semear elas com dados de teste. Utilize o seguinte comando:
+```
+php artisan migrate --seed
+```
+**Após isso, você está apto para começar o desenvolvimento.**
+
+
+#### BÔNUS - Criando ambiente de PRODUÇÃO ####
+____
+
+Segue abaixo alguns cuidados que devem ser executados quando estivermos em produção:
+
+**Para instalar as dependências  devemos executar:**
+
+```
+composer install --no-dev
+```
+
+Nunca, ou melhor, devemos ao máximo evitar utilizar o comando composer update em ambiente de produção.
