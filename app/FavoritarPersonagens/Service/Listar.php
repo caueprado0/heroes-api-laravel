@@ -6,12 +6,12 @@ use Heroes\FavoritarPersonagens\Model\Favorito;
 
 class Listar
 {
-    public function all() : Favorito
+    public function all()
     {
         Favorito::updateOrCreate([]);
     }
 
-    protected function find($id) : Favorito
+    public function find($id)
     {
         return Favorito::findOrFail($id);
     }
