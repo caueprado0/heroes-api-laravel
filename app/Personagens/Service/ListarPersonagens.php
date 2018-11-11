@@ -11,10 +11,10 @@ class ListarPersonagens
 
     const URL = "https://gateway.marvel.com/v1/public/characters";
 
-    public function get():array
+    public function getAll($queryParam = []):array
     {
         $requisicao = new Requisicao();
-        $response = $requisicao->envia($this->getUrl(self::URL));
+        $response = $requisicao->envia($this->getUrl(self::URL, 1, $queryParam));
 
         if (substr($response->status, 0, 1) == '2') {
             return $response->corpo['data'];
