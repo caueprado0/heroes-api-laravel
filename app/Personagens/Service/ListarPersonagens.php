@@ -22,4 +22,16 @@ class ListarPersonagens
 
         return [];
     }
+
+    public function find($id, $queryParam = []):array
+    {
+        $requisicao = new Requisicao();
+        $response = $requisicao->envia($this->getUrl(self::URL."/{$id}", 1, $queryParam));
+
+        if (substr($response->status, 0, 1) == '2') {
+            return $response->corpo['data'];
+        }
+
+        return [];
+    }
 }
