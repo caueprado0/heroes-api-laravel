@@ -14,6 +14,21 @@ Route::prefix('v1')->namespace('Api\\v1')->group(function () {
         ->name('v1_obter_personagem');
     });
 
+    //PERSONAGEM
+    Route::prefix('favoritos')->group(function () {
+        Route::post('/{personagemId}', 'Favorito@create')
+        ->name('v1_criar_favoritos');
+
+        Route::delete('/{personagemId}', 'Favorito@delete')
+        ->name('v1_deletar_favoritos');
+
+        Route::get('/', 'Favorito@all')
+        ->name('v1_obter_favoritos');
+
+        Route::get('/{id}', 'Favorito@find')
+        ->name('v1_obter_favorito');
+    });
+
     Route::group([
         'prefix' => 'auth'
     ], function () {
