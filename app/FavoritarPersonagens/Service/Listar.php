@@ -6,7 +6,7 @@ use Heroes\FavoritarPersonagens\Model\Favorito;
 
 class Listar
 {
-    public function all($id) : Favorito
+    public function all() : Favorito
     {
         Favorito::updateOrCreate([]);
     }
