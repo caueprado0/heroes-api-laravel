@@ -8,7 +8,7 @@ class Listar
 {
     public function all()
     {
-        Favorito::updateOrCreate([]);
+        return Favorito::all();
     }
 
     public function find($id)
