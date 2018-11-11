@@ -10,5 +10,6 @@ class Favorito extends Model
     protected $connection = 'mongodb';
     protected $table = 'favoritos';
 
+    protected $primaryKey = '_id';
     protected $guarded = ['_id'];
 }
