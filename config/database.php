@@ -54,6 +54,16 @@ return [
             'engine' => null,
         ],
 
+        'mongodb' => [
+            'driver'   => 'mongodb',
+            'host'     => env('DB_HOST_MONGODB', ''),
+            'port'     => env('DB_PORT_MONGODB', ''),
+            'database' => env('DB_DATABASE_MONGODB', ''),
+            'username' => env('DB_USERNAME_MONGODB', ''),
+            'password' => env('DB_PASSWORD_MONGODB', ''),
+            'dsn'      => env('DB_DSN_MONGODB', ''),
+        ],
+
         'pgsql' => [
             'driver' => 'pgsql',
             'host' => env('DB_HOST', '127.0.0.1'),
