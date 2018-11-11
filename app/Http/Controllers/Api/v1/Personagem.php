@@ -16,7 +16,9 @@ class Personagem extends Controller
 
     public function all(Request $request)
     {
-        $data = $this->service->getAll();
+        $query = is_array($request->query())? $request->query():[];
+
+        $data = $this->service->getAll($query);
         return response()->json([
             "url" => $request->fullUrl(),
             "statusCode" => 200,
@@ -28,7 +30,9 @@ class Personagem extends Controller
 
     public function find(Request $request, $id)
     {
-        $data = $this->service->find($id);
+        $query = is_array($request->query())? $request->query():[];
+
+        $data = $this->service->find($id, $query);
         return response()->json([
             "url" => $request->fullUrl(),
             "statusCode" => 200,
