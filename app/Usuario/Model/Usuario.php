@@ -3,12 +3,13 @@
 namespace Heroes\Usuario\Model;
 
 use Illuminate\Notifications\Notifiable;
-use DesignMyNight\Mongodb\Auth\User as MongoAuth;
+use Jenssegers\Mongodb\Eloquent\SoftDeletes;
 use Laravel\Passport\HasApiTokens;
+use DesignMyNight\Mongodb\Auth\User as MongoAuth;
 
-class Usuario extends Authenticatable
+class Usuario extends MongoAuth
 {
-    use Notifiable, HasApiTokens;
+    use HasApiTokens, SoftDeletes, Notifiable;
 
     protected $collection = 'usuarios';
     protected $connection = 'mongodb';
