@@ -1,6 +1,6 @@
 <?php
 
-namespace Heroes\Http\Controllers\Auth;
+namespace Heroes\Http\Controllers\Api\v1\Auth;
 
 use Heroes\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ResetsPasswords;
