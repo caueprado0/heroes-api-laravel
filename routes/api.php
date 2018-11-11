@@ -6,7 +6,7 @@ Route::prefix('v1')->namespace('Api\\v1')->group(function () {
     })->name('v1_index');
 
     //PERSONAGEM
-    Route::prefix('personagem')->group(function () {
+    Route::prefix('personagem')->middleware('auth:api')->group(function () {
         Route::get('/', 'Personagem@all')
         ->name('v1_obter_personagens');
 
@@ -15,7 +15,7 @@ Route::prefix('v1')->namespace('Api\\v1')->group(function () {
     });
 
     //PERSONAGEM
-    Route::prefix('favoritos')->group(function () {
+    Route::prefix('favoritos')->middleware('auth:api')->group(function () {
         Route::post('/{personagemId}', 'Favorito@create')
         ->name('v1_criar_favoritos');
 
@@ -29,17 +29,20 @@ Route::prefix('v1')->namespace('Api\\v1')->group(function () {
         ->name('v1_obter_favorito');
     });
 
-    Route::group([
-        'prefix' => 'auth'
-    ], function () {
+    Route::prefix('auth')->group(function () {
         Route::post('login', 'AuthController@login');
+
         Route::post('signup', 'AuthController@signup');
 
-        Route::group([
-            'middleware' => 'auth:api'
-        ], function () {
+        Route::middleware('auth:api')->group(function () {
             Route::get('logout', 'AuthController@logout');
+
             Route::get('usuario', 'AuthController@user');
         });
+        Route::get('/', 'Favorito@all')
+        ->name('v1_obter_favoritos');
+
+        Route::get('/{id}', 'Favorito@find')
+        ->name('v1_obter_favorito');
     });
 });
