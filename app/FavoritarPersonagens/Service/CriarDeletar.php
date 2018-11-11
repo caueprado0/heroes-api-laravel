@@ -14,7 +14,7 @@ class CriarDeletar
         $this->listarPersonagens = $listarPersonagens;
     }
 
-    public function set($id) : Favorito
+    public function create($id) : Favorito
     {
         $resultado = $this->listarPersonagens->find($id);
 
