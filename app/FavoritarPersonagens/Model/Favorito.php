@@ -6,7 +6,7 @@ use Jenssegers\Mongodb\Eloquent\Model;
 
 class Favorito extends Model
 {
-    protected $collection = 'usuarios';
+    protected $collection = 'favoritos';
     protected $connection = 'mongodb';
     protected $table = 'favoritos';
 
