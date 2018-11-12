@@ -8,6 +8,6 @@ class Authenticate extends Middleware
 {
     protected function redirectTo($request)
     {
-        return route('api/v1/auth/login');
+        return redirect('v1_obter_login');
     }
 }
