@@ -30,19 +30,18 @@ Route::prefix('v1')->namespace('Api\\v1')->group(function () {
     });
 
     Route::prefix('auth')->group(function () {
-        Route::post('login', 'AuthController@login');
+        Route::post('login', 'AuthController@login')
+        ->name('v1_obter_login');
 
-        Route::post('signup', 'AuthController@signup');
+        Route::post('signup', 'AuthController@signup')
+        ->name('v1_obter_signup');
 
         Route::middleware('auth:api')->group(function () {
-            Route::get('logout', 'AuthController@logout');
+            Route::get('logout', 'AuthController@logout')
+            ->name('v1_obter_logout');
 
-            Route::get('usuario', 'AuthController@user');
+            Route::get('usuario', 'AuthController@user')
+            ->name('v1_obter_usuario');
         });
-        Route::get('/', 'Favorito@all')
-        ->name('v1_obter_favoritos');
-
-        Route::get('/{id}', 'Favorito@find')
-        ->name('v1_obter_favorito');
     });
 });
