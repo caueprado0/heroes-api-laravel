@@ -62,19 +62,15 @@ APP_URL=http://localhost
 
 LOG_CHANNEL=single
 
-DB_CONNECTION=mysql
-DB_HOST=mysql
-DB_PORT=3306
-DB_DATABASE=heroes
-DB_USERNAME=heroes
-DB_PASSWORD=heroes@mysql
+MARVEL_API_KEY=4...cacb0
+MARVEL_API_HASH=4...b440fe
 
-
-MONGODB_HOST=mongodb
+DB_CONNECTION=mongodb
+DB_HOST_MONGODB=mongodb
 MONGODB_PORT=27017
-MONGODB_DATABASE=heroes
-MONGODB_USERNAME=heroes
-MONGODB_PASSWORD=heroes@mongo
+DB_DATABASE_MONGODB=heroes
+DB_USERNAME_MONGODB=heroes
+DB_PASSWORD_MONGODB=heroes@mongo
 
 CACHE_DRIVER=redis
 SESSION_DRIVER=redis
@@ -92,7 +88,12 @@ MAIL_USERNAME=null
 MAIL_PASSWORD=null
 MAIL_ENCRYPTION=null
 
+PASSPORT_TOKENNAME=heroespassport
+
 ```
+**Atenção nas keys MARVEL_API_KEY e MARVEL_API_HASH você deve informar a sua KEY e a sua HASH.**
+
+
 Para finalizar o nosso *.env*, execute o seguinte comando:
 ```
 php artisan key:generate
@@ -122,3 +123,106 @@ composer install --no-dev
 ```
 
 Nunca, ou melhor, devemos ao máximo evitar utilizar o comando composer update em ambiente de produção.
+
+
+#### 5 - Rotas do Sistema
+____
+
+Para todas as rotas é necessário enviar os seguintes cabeçalhos HTTP:
+```
+Content-Type: application/json
+Accept: application/json
+```
+
+Já nas rotas protegidas, precisamos passar o Token de Autorização, exemplo:
+```
+Content-Type: application/json
+Accept: application/json
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aS...
+```
+Atenção, os exemplos serão sob a library CURL.
+
+**Rotas AUTH:**
+```
+Cadastrar um usuário: 
+curl -X POST \
+  http://localhost:8006/api/v1/auth/signup \
+  -H 'Accept: application/json' \
+  -H 'Content-Type: application/json' \
+  -H 'Postman-Token: bb987c4a-ae0c-4ea2-96f6-53c1cbbaac13' \
+  -H 'cache-control: no-cache' \
+  -d '{
+	"nome": "Cauê Prado",
+	"email": "caue.prado0@gmail.com",
+	"password": "123456",
+	"password_confirmation": "123456"
+}'
+
+Efetuar login:
+curl -X POST \
+  http://localhost:8006/api/v1/auth/login \
+  -H 'Accept: application/json' \
+  -H 'Content-Type: application/json' \
+  -H 'Postman-Token: 2f9171f9-519f-4c30-b9e9-349b7cfaa574' \
+  -H 'cache-control: no-cache' \
+  -d '{
+	"email": "caue.prado0@gmail.com",
+	"password": "123456"
+}'
+
+```
+
+**Rotas Personagens Marvel:**
+
+Lembre-se de obter o token, efetuando o login, antes de atira nesta rota.
+
+```
+Obter Todos os Personagens Marvel:
+curl -X GET \
+  http://localhost:8006/api/v1/personagem \
+  -H 'Accept: application/json' \
+  -H 'Authorization: Bearer eyJ0eX...' \
+  -H 'Content-Type: application/json' \
+  -H 'Postman-Token: 0c5bce65-639c-4f81-a128-e8ef31610439' \
+  -H 'cache-control: no-cache'
+
+Obter Personagem por ID:
+curl -X GET \
+  http://localhost:8006/api/v1/personagem/1011164 \
+  -H 'Accept: application/json' \
+  -H 'Authorization: Bearer eyJ0eX...' \
+  -H 'Content-Type: application/json' \
+  -H 'Postman-Token: 2fe880df-3154-49f3-af5f-b720f8de1c48' \
+  -H 'cache-control: no-cache'
+
+```
+
+
+**Rotas Resource Favoritar Personagens :**
+```
+Criar um personagem favorito:
+curl -X POST \
+  http://localhost:8006/api/v1/favoritos/1011164 \
+  -H 'Accept: application/json' \
+  -H 'Authorization: Bearer eyJ0eX...' \
+  -H 'Content-Type: application/json' \
+  -H 'Postman-Token: c0a3a8d3-4048-4751-bf2c-565ffe82bac5' \
+  -H 'cache-control: no-cache'
+
+  Obter todos os personagens favoritos cadastrados:
+  curl -X GET \
+  http://localhost:8006/api/v1/favoritos/ \
+  -H 'Accept: application/json' \
+  -H 'Authorization: Bearer eyJ0eX...' \
+  -H 'Content-Type: application/json' \
+  -H 'Postman-Token: 5fac3774-20c3-49b2-a5d3-509bec9729d0' \
+  -H 'cache-control: no-cache'
+
+  Deletar um personagem favorito:
+  curl -X DELETE \
+  http://localhost:8006/api/v1/favoritos/5be8a2143b81eb0020698512 \
+  -H 'Accept: application/json' \
+  -H 'Content-Type: application/json' \
+  -H 'Postman-Token: daa4b7b6-d09d-4481-9a38-8ca01082b31b' \
+  -H 'cache-control: no-cache'
+```
