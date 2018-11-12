@@ -2,7 +2,16 @@
 
 Route::prefix('v1')->namespace('Api\\v1')->group(function () {
     Route::get('/', function () {
-        return response()->json(["url" =>"/", "sucesso" => true, "mensagem" => "O projeto Shun Aceite de Contratos é um software fechado desenvolvido pela equipe de TI da Psychemedics. "]);
+        $mensagem = "O projeto Heroes é um software aberto desenvolvido pelo Cauê Prado";
+        $mensagem .= PHP_EOL . "Linkedin: https://www.linkedin.com/in/caueprado/";
+        $mensagem .= PHP_EOL . "Instagram: @sigaocaue";
+        $mensagem .= PHP_EOL . "Github: caueprado0";
+
+        return response()->json([
+            "url" =>"/",
+            "sucesso" => true,
+            "mensagem" => $mensagem
+        ]);
     })->name('v1_index');
 
     //PERSONAGEM
